@@ -1,0 +1,97 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class FileHandlingUtility {
+
+    public static void main(String[] args) {
+        // Define the file path for the text file.
+        String filePath = "internship_certificate.txt";
+
+        // Create a new file if it doesn't exist
+        createFile(filePath);
+
+        // Write initial content to the file
+        String initialContent = "Completion Certificate will be issued on your Internship End Date.\n";
+        writeFile(filePath, initialContent);
+
+        // Read and display the contents of the file
+        System.out.println("Contents of the file before modification:");
+        readFile(filePath);
+
+        // Modify the file by appending new content
+        String newContent = "\nCertificate issued by CODTECH.";
+        appendToFile(filePath, newContent);
+
+        // Read and display the updated contents of the file
+        System.out.println("\nContents of the file after modification:");
+        readFile(filePath);
+    }
+
+    /**
+     * Creates a new file at the specified path if it does not already exist.
+     *
+     * @param filePath The path of the file to be created.
+     */
+    private static void createFile(String filePath) {
+        try {
+            File file = new File(filePath);
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Writes the specified content to the file at the given path.
+     *
+     * @param filePath The path of the file where the content will be written.
+     * @param content  The content to be written to the file.
+     */
+    private static void writeFile(String filePath, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+            System.out.println("Content written to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Reads and displays the content of the file at the given path.
+     *
+     * @param filePath The path of the file to be read.
+     */
+    private static void readFile(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Appends the specified content to the existing file at the given path.
+     *
+     * @param filePath The path of the file where the content will be appended.
+     * @param content  The content to be appended to the file.
+     */
+    private static void appendToFile(String filePath, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(content);
+            System.out.println("Content appended to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending to the file.");
+            e.printStackTrace();
+        }
+    }
+}
